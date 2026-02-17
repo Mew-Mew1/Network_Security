@@ -12,6 +12,7 @@ Requires-Dist: certifi
 Requires-Dist: pymongo[srv]==3.12
 Requires-Dist: dotenv
 Requires-Dist: scikit-learn
+Requires-Dist: pyyaml
 Dynamic: author
 Dynamic: author-email
 Dynamic: requires-dist
