@@ -9,14 +9,14 @@ from network_security.entity.artifact_entity import DataIngestionArtifact
 import os
 import sys
 import numpy as np
-import pandas as pd 
+import pandas as pd
 import pymongo
 from typing import List
 from sklearn.model_selection import train_test_split
 from dotenv import load_dotenv
 load_dotenv()
 
-MONGO_DB_URL=os.getenv("MONGO_DB_URL")##taking data from mongodb- why can't we directly use it?
+MONGO_DB_URL=os.getenv("MONGO_DB_URL")
 
 
 class DataIngestion:
@@ -43,7 +43,7 @@ class DataIngestion:
             df.replace({"na":np.nan},inplace=True)
             return df
         except Exception as e:
-            raise NetworkSecurityException
+          raise NetworkSecurityException(e, sys) 
         
     def export_data_into_feature_store(self,dataframe: pd.DataFrame):
         try:
@@ -98,4 +98,5 @@ class DataIngestion:
             return dataingestionartifact
 
         except Exception as e:
-            raise NetworkSecurityException
+            raise NetworkSecurityException(e, sys)
+        

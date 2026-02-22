@@ -10,7 +10,9 @@ network_security/__init__.py
 network_security/cloud/__init__.py
 network_security/components/__init__.py
 network_security/components/data_ingestion.py
+network_security/components/data_transformation.py
 network_security/components/data_validation.py
+network_security/components/model_trainer.py
 network_security/constants/__init__.py
 network_security/constants/training_pipeline/__init__.py
 network_security/entity/__init__.py
