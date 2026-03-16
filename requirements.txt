@@ -10,4 +10,5 @@ scikit-learn
 pyyaml
 mlflow
 dagshub
+python-multipart
 -e .

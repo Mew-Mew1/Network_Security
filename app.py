@@ -16,8 +16,6 @@ from network_security.pipeline.training_pipeline import TrainingPipeline
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File, UploadFile,Request
 from uvicorn import run as app_run
-from fastapi.responses import Response
-from starlette.responses import RedirectResponse
 import pandas as pd
 
 from network_security.utils.main_utils.utils import load_object
@@ -48,15 +46,25 @@ from fastapi.templating import Jinja2Templates
 templates = Jinja2Templates(directory="./templates")
 
 @app.get("/", tags=["authentication"])
-async def index():
-    return RedirectResponse(url="/docs")
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/train")
-async def train_route():
+async def train_route_get(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.post("/train")
+async def train_route(request: Request):
     try:
         train_pipeline=TrainingPipeline()
         train_pipeline.run_pipeline()
-        return Response("Training is successful")
+        return templates.TemplateResponse(
+            "index.html",
+            {
+                "request": request,
+                "train_message": "Training completed successfully.",
+            },
+        )
     except Exception as e:
         raise NetworkSecurityException(e,sys)
     
@@ -75,10 +83,20 @@ async def predict_route(request: Request,file: UploadFile = File(...)):
         print(df['predicted_column'])
         #df['predicted_column'].replace(-1, 0)
         #return df.to_json()
-        df.to_csv('prediction_output/output.csv')
-        table_html = df.to_html(classes='table table-striped')
+        os.makedirs('prediction_output', exist_ok=True)
+        df.to_csv('prediction_output/output.csv', index=False)
+        prediction_counts = df['predicted_column'].value_counts().to_dict()
+        table_html = df.to_html(classes='results-table', index=False)
         #print(table_html)
-        return templates.TemplateResponse("table.html", {"request": request, "table": table_html})
+        return templates.TemplateResponse(
+            "table.html",
+            {
+                "request": request,
+                "table": table_html,
+                "row_count": len(df),
+                "prediction_counts": prediction_counts,
+            },
+        )
         
     except Exception as e:
             raise NetworkSecurityException(e,sys)

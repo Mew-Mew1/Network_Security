@@ -1,0 +1,6 @@
+[ 2026-03-16 21:58:10,417 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2026-03-16 21:58:10,423 ] 107 dagshub - INFO - Accessing as is24bm035
+[ 2026-03-16 21:58:11,747 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/is24bm035/Network_Security "HTTP/1.1 200 OK"
+[ 2026-03-16 21:58:13,179 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2026-03-16 21:58:13,183 ] 107 dagshub - INFO - Initialized MLflow to track repo "is24bm035/Network_Security"
+[ 2026-03-16 21:58:13,185 ] 107 dagshub - INFO - Repository is24bm035/Network_Security initialized!

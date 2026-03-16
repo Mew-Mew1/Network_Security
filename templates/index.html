@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network Security Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Fraunces:opsz,wght@9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f9f4ea;
+      --ink: #122026;
+      --muted: #526069;
+      --card: #fffdf8;
+      --line: #d9cbb5;
+      --accent: #0b8f7a;
+      --accent-2: #ff7f50;
+      --ok: #176d3f;
+      --ok-bg: #dff5e9;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(70rem 40rem at -10% -20%, #ffe3c2 0%, transparent 60%),
+        radial-gradient(55rem 25rem at 110% 20%, #d2f2eb 0%, transparent 55%),
+        linear-gradient(180deg, #fff8ef 0%, #f8f0e3 55%, #f6ecdc 100%);
+      min-height: 100vh;
+    }
+
+    .shell {
+      width: min(1100px, 92vw);
+      margin: 2.5rem auto;
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .hero {
+      background: linear-gradient(130deg, #fffefb, #fff4e6);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(36, 31, 24, 0.08);
+      animation: rise 650ms ease-out both;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-weight: 700;
+      color: var(--accent);
+      background: #e9f7f4;
+      border-radius: 99px;
+      padding: 0.3rem 0.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.8rem, 3.4vw, 3rem);
+      line-height: 1.1;
+      max-width: 20ch;
+    }
+
+    .subtitle {
+      margin-top: 0.9rem;
+      color: var(--muted);
+      max-width: 66ch;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 1.2rem;
+      box-shadow: 0 8px 22px rgba(33, 30, 25, 0.07);
+      animation: rise 650ms ease-out both;
+    }
+
+    .panel:nth-child(2) { animation-delay: 120ms; }
+
+    h2 {
+      margin: 0 0 0.45rem;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+    }
+
+    .meta {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    form { display: grid; gap: 0.9rem; }
+
+    .file-wrap {
+      border: 2px dashed #b4d8d1;
+      background: #f5fffc;
+      border-radius: 14px;
+      padding: 1rem;
+    }
+
+    .file-wrap label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 0.55rem;
+    }
+
+    .file-wrap input[type="file"] {
+      width: 100%;
+      color: var(--ink);
+    }
+
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 0.78rem 1rem;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(120deg, #0b8f7a, #0a6b5d);
+    }
+
+    .btn-secondary {
+      color: #fff;
+      background: linear-gradient(120deg, #ff7f50, #dc6235);
+    }
+
+    .notice {
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.92rem;
+      border: 1px solid #b8e2cb;
+      background: var(--ok-bg);
+      color: var(--ok);
+    }
+
+    .tips {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.45rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .tips li {
+      background: #fff;
+      border: 1px solid #eadcc7;
+      border-radius: 10px;
+      padding: 0.55rem 0.65rem;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      .shell { margin: 1.2rem auto 2rem; }
+      .hero { padding: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <span class="eyebrow">NETWORK DEFENSE STUDIO</span>
+      <h1>Train your model and run intrusion predictions from one place.</h1>
+      <p class="subtitle">
+        This dashboard is wired to your FastAPI backend. You can start a fresh training run and upload a CSV for prediction without using the API docs page.
+      </p>
+    </section>
+
+    {% if train_message %}
+    <div class="notice">{{ train_message }}</div>
+    {% endif %}
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Model Training</h2>
+        <p class="meta">Runs the complete pipeline: ingestion, validation, transformation, and trainer.</p>
+        <form action="/train" method="post">
+          <button class="btn btn-secondary" type="submit">Start Training Pipeline</button>
+        </form>
+      </article>
+
+      <article class="panel">
+        <h2>CSV Prediction</h2>
+        <p class="meta">Upload the same feature schema used during training to generate predictions.</p>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+          <div class="file-wrap">
+            <label for="csv_file">Upload Input File</label>
+            <input id="csv_file" name="file" type="file" accept=".csv" required />
+          </div>
+          <button class="btn btn-primary" type="submit">Predict CSV</button>
+        </form>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2>Quick Notes</h2>
+      <ul class="tips">
+        <li>Use http://127.0.0.1:8000 in your browser, not 0.0.0.0.</li>
+        <li>Install python-multipart if file upload routes fail to boot.</li>
+        <li>Prediction output is stored at prediction_output/output.csv.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

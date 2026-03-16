@@ -50,7 +50,7 @@ class NetworkDataExtract:
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
-    def insert_data_mongo(self, records, collection, database):
+    def insert_data_mongo(self, records, database, collection):
         try:
             self.database = database
             self.records = records
@@ -68,10 +68,10 @@ class NetworkDataExtract:
         
 if __name__ == "__main__":
     FILE_PATH = r"C:\Projects\Project2\Network_Data\phisingData.csv"#Ensures the code inside runs only when you launch this file, preventing accidental execution during imports.
-    DATA_BASE = "NetworkDB"
-    COLLECTION = "Networkdata"
+    DATABASE = "Networkdata"
+    COLLECTION = "NetworkDB"
     network_obj = NetworkDataExtract()
     records = network_obj.csv_to_json_converter(file_path = FILE_PATH)
     print(records)
-    no_of_records = network_obj.insert_data_mongo(records, DATA_BASE, COLLECTION)
+    no_of_records = network_obj.insert_data_mongo(records, DATABASE, COLLECTION)
     print(no_of_records)
