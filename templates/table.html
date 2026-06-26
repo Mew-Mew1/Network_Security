@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Prediction Results</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Fraunces:opsz,wght@9..144,700&display=swap" rel="stylesheet" />
+	<style>
+		:root {
+			--bg: #f6efe1;
+			--ink: #162229;
+			--muted: #5b666d;
+			--line: #dbc9ae;
+			--card: #fffdf8;
+			--accent: #0b8f7a;
+			--accent-2: #ff7f50;
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			margin: 0;
+			font-family: "Manrope", sans-serif;
+			color: var(--ink);
+			background:
+				radial-gradient(50rem 22rem at 0% 0%, #ffe8cb 0%, transparent 60%),
+				radial-gradient(40rem 20rem at 100% 10%, #d6f5ee 0%, transparent 60%),
+				linear-gradient(180deg, #fff7eb 0%, #f6ecdc 100%);
+		}
+
+		.wrap {
+			width: min(1200px, 94vw);
+			margin: 1.7rem auto;
+			display: grid;
+			gap: 1rem;
+		}
+
+		.head {
+			border: 1px solid var(--line);
+			border-radius: 20px;
+			background: var(--card);
+			padding: 1.2rem;
+			box-shadow: 0 10px 25px rgba(31, 27, 23, 0.08);
+			animation: rise 450ms ease-out both;
+		}
+
+		h1 {
+			margin: 0;
+			font-family: "Fraunces", serif;
+			font-size: clamp(1.5rem, 2.9vw, 2.2rem);
+		}
+
+		.sub {
+			margin: 0.55rem 0 0;
+			color: var(--muted);
+		}
+
+		.actions {
+			margin-top: 0.9rem;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.6rem;
+		}
+
+		.btn {
+			text-decoration: none;
+			font-weight: 800;
+			border-radius: 11px;
+			padding: 0.62rem 0.88rem;
+			font-size: 0.9rem;
+			color: #fff;
+			transition: transform 150ms ease;
+		}
+
+		.btn:hover { transform: translateY(-1px); }
+		.btn-home { background: linear-gradient(120deg, #0b8f7a, #0a6b5d); }
+		.btn-docs { background: linear-gradient(120deg, #ff7f50, #d95f34); }
+
+		.metrics {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 0.8rem;
+			animation: rise 550ms ease-out both;
+		}
+
+		.metric {
+			border: 1px solid var(--line);
+			border-radius: 15px;
+			background: #fff;
+			padding: 0.8rem;
+		}
+
+		.metric strong {
+			display: block;
+			font-size: 1.35rem;
+			margin-top: 0.15rem;
+		}
+
+		.label {
+			color: var(--muted);
+			font-size: 0.85rem;
+			font-weight: 700;
+			letter-spacing: 0.03em;
+		}
+
+		.table-card {
+			border: 1px solid var(--line);
+			border-radius: 18px;
+			background: #fff;
+			overflow: hidden;
+			box-shadow: 0 8px 18px rgba(26, 26, 26, 0.08);
+			animation: rise 650ms ease-out both;
+		}
+
+		.table-scroll {
+			overflow: auto;
+			max-height: 70vh;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 0.9rem;
+		}
+
+		th, td {
+			border-bottom: 1px solid #f0e5d4;
+			padding: 0.56rem 0.7rem;
+			text-align: left;
+			white-space: nowrap;
+		}
+
+		th {
+			position: sticky;
+			top: 0;
+			z-index: 1;
+			background: #fff4e6;
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
+		}
+
+		tr:nth-child(even) { background: #fffcf7; }
+
+		@keyframes rise {
+			from { opacity: 0; transform: translateY(10px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		@media (max-width: 900px) {
+			.metrics { grid-template-columns: 1fr; }
+		}
+	</style>
+</head>
+<body>
+	<main class="wrap">
+		<section class="head">
+			<h1>Prediction Results</h1>
+			<p class="sub">Your uploaded CSV has been scored. Review class counts and row-level output below.</p>
+			<div class="actions">
+				<a class="btn btn-home" href="/">Back to Dashboard</a>
+				<a class="btn btn-docs" href="/docs">Open API Docs</a>
+			</div>
+		</section>
+
+		<section class="metrics">
+			<article class="metric">
+				<span class="label">Total Rows</span>
+				<strong>{{ row_count }}</strong>
+			</article>
+			<article class="metric">
+				<span class="label">Unique Prediction Classes</span>
+				<strong>{{ prediction_counts|length }}</strong>
+			</article>
+			<article class="metric">
+				<span class="label">Prediction Breakdown</span>
+				<strong>
+					{% for label, count in prediction_counts.items() %}
+						{{ label }}: {{ count }}{% if not loop.last %}, {% endif %}
+					{% endfor %}
+				</strong>
+			</article>
+		</section>
+
+		<section class="table-card">
+			<div class="table-scroll">
+				{{ table|safe }}
+			</div>
+		</section>
+	</main>
+</body>
+</html>
