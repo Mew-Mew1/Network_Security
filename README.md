@@ -5,7 +5,8 @@ This project is an end-to-end machine learning system for phishing and suspiciou
 It supports:
 - data loading into MongoDB
 - model training through a modular pipeline
-- prediction through a FastAPI web app
+- batch CSV prediction through a FastAPI web app
+- real-time live URL inference with a schema-driven feature extractor
 - local artifact management with optional S3 sync
 
 ## What This Project Does
@@ -19,16 +20,17 @@ Main use cases:
 
 ## Data Source and Input Type
 
-Data used in this project is structured tabular data, not live web scraping.
+Data used in this project is structured tabular data, but the app also supports live URL feature extraction.
 
 Typical flow:
 1. Dataset is stored in CSV format (example: Network_Data/phisingData.csv).
 2. CSV is inserted into MongoDB using push_data_to_mdb.py.
 3. Training pipeline reads data from MongoDB.
 4. Model is trained and saved locally.
-5. FastAPI app accepts CSV upload for prediction.
+5. FastAPI app accepts CSV upload for batch prediction.
+6. The live URL prediction endpoint extracts the same 30 features from a URL and enforces the schema order defined in data_schema/schema.yaml.
 
-Schema reference is defined in data_schema/schema.yaml.
+Schema reference is defined in data_schema/schema.yaml and used by the live URL extractor to guarantee correct column order.
 
 ## Project Structure
 
@@ -107,6 +109,7 @@ The web UI provides:
 - GET / : dashboard UI
 - POST /train : runs end-to-end training pipeline
 - POST /predict : accepts CSV file upload and returns rendered prediction results
+- POST /predict_live_url : accepts a single URL and returns live inference with extraction diagnostics
 - GET /docs : Swagger API documentation
 
 ## Local Run Without S3
